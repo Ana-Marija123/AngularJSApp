@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controller.js"></script>
+
+    <script src="jquery-ui-1.10.4.custom/js/jquery-1.10.2.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <br>
+    <title>Title</title>
+</head>
+<body>
+<div ng-app="myApp">
+    <div ng-controller="myCtrl">
+        <div class="col-md-1">
+
+
+        </div>
+        <div class="col-md-9">
+
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                    <button class="btn btn-info btn-lg " ng-click="showTopMovies()">Top Movies</button>
+                </div>
+                <div class="col-md-2">
+                    <div class="dropdown pull-right " ng-model="showButton">
+                        <button class="btn btn-info dropdown-toggle btn-lg" ng-click="showGenres()" type="button"
+                                data-toggle="dropdown">Genres
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+
+                            <li ng-repeat="g in genres" ng-model="hideTable1" ng-click="showMoviesByGenre(g)">
+                                {{g.name}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+
+
+            </div>
+
+
+            <br/><br/>
+
+            <div class="well">
+                <div class="form-group form-inline">
+
+                    <span class="glyphicon glyphicon-search"></span>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </div>
+
+
+            <!--<table class="table" ng-model="showButton" ng-show="hideTable1">-->
+
+            <!--<tr ng-repeat="m in topMovies|filter:search">-->
+            <!--<td>{{$index+1}}</td>-->
+            <!--<td>{{m.title}}<br>-->
+            <!--<img ng-if="m.poster_path != null"-->
+            <!--ng-src="{{'https://image.tmdb.org/t/p/w185/' + m.poster_path}}" alt="">-->
+            <!--</td>-->
+            <!--<td>{{m.popularity}}-->
+            <!--<br><br><br>-->
+            <!--<stars></stars></td>-->
+
+            <!--<td><button class="btn btn-info" ng-click="showActors(m)">Actors</button></td>-->
+
+            <!--</tr>-->
+
+            <!--</table>-->
+
+
+            <div class="col-sm-6" ng-model="showButton" ng-show="hideTable1" ng-repeat="m in topMovies|filter:search">
+                <!-- using a bootstrap well to style -->
+                <div class="well well-sm"><br/>
+                    <div class="row" style="height: 170px">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
+                            <img ng-if="m.poster_path != null"
+                                 ng-src="{{'https://image.tmdb.org/t/p/w185/' + m.poster_path}}" style="height: 160px"
+                                 width="120px" class="img-rounded img-responsive ">
+                        </div>
+                        <div class="col-md-5">
+                            <h4>{{m.title}}</h4>
+
+                            <h6>
+                                <stars style="color:#D4AF37"></stars>
+                            </h6>
+                            <h6>{{m.popularity}}</h6>
+                        </div>
+                        <div class="col-md-1">
+                            <br/><br/><br/><br/> <br/><br/><br/>
+                            <button class=" btn-xs btn btn-info pull-right" ng-click="showActors(m)"
+                                    data-toggle="modal"
+                                    data-target="#myModal">Cast
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="btn btn-info pull-right" ng-show="showButton" ng-click="nextPage(); showTopMovies()">Show
+                more
+            </button>
+
+            <div class="col-sm-6" ng-repeat="m in genreMovies" ng-show="genresTable">
+                <div class="well well-sm">
+                    <div class="row" style="height: 100px">
+
+                        <div class="col-md-5">
+                            <img ng-if="m.poster_path != null"
+                                 ng-src="{{'https://image.tmdb.org/t/p/w185/' + m.poster_path}}" style="height: 100px"
+                                 width="90px" class="img-rounded img-responsive ">
+                        </div>
+                        <div class="col-md-5">
+                            {{m.title}}
+
+                            <h6>
+                                <stars style="color:#D4AF37"></stars>
+                            </h6>
+                            <h6>{{m.popularity}}</h6>
+                        </div>
+                        <div class="col-md-2">
+                            <br/><br/> <br/><br/>
+                            <button class=" btn-xs btn btn-info pull-right" ng-click="showActors(m)"
+                                    data-toggle="modal"
+                                    data-target="#myModal">Cast
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document" style="width: 30%">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title text-center" id="myModalLabel"> Actors</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <ol ng-repeat="a in actors">{{a.name}}</ol>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+</div>
+
+</body>
+</html>

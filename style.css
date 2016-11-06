@@ -1,0 +1,14 @@
+.dropdown-menu{
+
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover{
+    background-color: #5bc0de;
+}
+
+.well-image{
+    width: 80%;
+    height: 130px;
+}
+
